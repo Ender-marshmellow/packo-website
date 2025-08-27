@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>All Products - Packo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <img src="images/logo.png" width="120px" height="110px">
+                </div>
+                <nav>
+                    <ul id="MenuItems">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="product.html">Products</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                    </ul>
+                </nav>
+                <img src="images/bagicon.png" width="40px" height="33px">
+                <img src="images/menu icon.png" class="menu-icon" onclick="menutoggle()">
+            </div>
+        </div>
+
+<div class="small-container single-product2">
+            <a href="product.html" class="btn">← Back to Products</a>
+            <div class="row">
+                <div class="col-2">
+                    <img src="images/fanny pack.jpg" width="100%">
+                </div>
+                <div class="col-2">
+                    <p>Home / Fanny pack</p>
+                    <h1>Elly Fanny Pack<br>by Elly</h1>
+                    <h4>RM20.00</h4>
+                    <select>
+                        <option>Select Colour</option>
+                        <option>White</option>
+                        <option>Black</option>
+                        <option>Grey</option>
+                    </select>
+                    <input type="number" value="1" id="quantity">
+                    <a href="#" class="btn" onclick="addToCart(2)">Add To Cart</a>
+
+                   <script>
+                    function addToCart(productId) {
+                            let qty = parseInt(document.getElementById("quantity").value);
+                            let cart = JSON.parse(localStorage.getItem("cart")) || {};
+
+                            if(cart[productId]){
+                                cart[productId] += qty;
+                            } else {
+                                cart[productId] = qty;
+                            }
+
+                            localStorage.setItem("cart", JSON.stringify(cart));
+                            alert("Added to cart!");
+                    }
+                    let qty = parseInt(document.getElementById("quantity").value);
+                    function menutoggle(){
+                        var MenuItems = document.getElementById("MenuItems");
+                        if(MenuItems.style.maxHeight =='200px'){
+                            MenuItems.style.maxHeight ='0px';
+                        } else{
+                            MenuItems.style.maxHeight='200px';
+                        }
+                    }
+                    </script>
+                    <h3>Product Details <i class="fa fa-indent" ></i></h3>
+                    <br>
+                    <p>Small and adjustable.Suitable for outdooring or travelling use.</p>
+                </div>  
+            </div>
+        </div>
+
+<!-------title------------>
+        <div class="small-container">
+        <div class="row row-2">
+            <h2>Related Products</h2>
+            <p>View More</p>
+            </div>
+        </div>
+<!--------Products------------>
+        <div class="small-container">
+            <div class="row">
+                <div class="col-4">
+                <img src="images/Messanger bag.jpg">
+                <h4>Messanger Bag</h4>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-half-o"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <p>RM36.00</p>
+            </div>
+            <div class="col-4">
+                <img src="images/kitty backpack.jpg">
+                <h4>Kitty Backpack</h4>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <p>RM60.00</p>
+            </div>
+            <div class="col-4">
+                <img src="images/duoning.jpg">
+                <h4>Duo Ning Crossbody Bag</h4>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                </div>
+                <p>RM18.00</p>
+            </div>
+            <div class="col-4">
+                <img src="images/Backpack.jpg">
+                <h4>Custard Leather Backpack</h4>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <p>RM120.00</p>
+            </div>
+            </div>
+        </div>
+            
+<!------------Footer---------------->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col1">
+                    <h4 class="copyright">Copyright © 2025 Packo</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-----------js for toggle menu-------------->
+    <script>
+        var MenuItems=document.getElementById("MenuItems");
+
+        MenuItems.style.maxHeight="0px";
+
+        function menutoggle(){
+            if(MenuItems.style.maxHeight =='0px')
+            {
+                MenuItems.style.maxHeight='200px';
+            }
+            else
+            {
+                MenuItems.style.maxHeight ='0px';
+            }
+        }
+    </script>
+</body> 
+</html>

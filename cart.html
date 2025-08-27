@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart - Packo</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="navbar">
+        <div class="logo">
+            <img src="images/logo.png" width="120px" height="110px">
+        </div>
+        <nav>
+            <ul id="MenuItems">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li><a href="cart.html">Cart</a></li>
+            </ul>
+        </nav>
+        <img src="images/bagicon.png" width="40px" height="33px">
+        <img src="images/menu icon.png" class="menu-icon" onclick="menutoggle()">
+    </div>
+</div>
+
+<div class="small-container cart-page">
+    <h2>Your Cart</h2>
+    <table id="cart-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Discount (%)</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="cart-body">
+           
+        </tbody>
+    </table>
+    <button onclick="clearCart()" class="btn" style="margin-top:10px;">Clear Cart</button>
+
+    <div class="total-price" style="margin-top:20px;">
+        <table>
+            <tr>
+                <td>Subtotal</td>
+                <td id="subtotal-price">RM0.00</td>
+            </tr>
+            <tr>
+                <td>Total Discount</td>
+                <td id="discount-price">RM0.00</td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td id="total-price">RM0.00</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+
+const products = {
+    1: {name:"Doughnut Macaroon Backpack", price:50, img:"images/bag.png"},
+    2: {name:"Fanny Pack", price:20, img:"images/fanny pack.jpg"},
+    3: {name:"School Bag", price:30, img:"images/schoolbag.png"},
+    4: {name:"Whale Shark Crossbody Bag", price:80, img:"images/Whale Shark Crossbody Bag.png"},
+    5: {name:"Messanger Bag", price:36, img:"images/Messanger bag.jpg"},
+    6: {name:"Kitty Backpack", price:60, img:"images/kitty backpack.jpg"},
+    7: {name:"Duo Ning Fashion Crossbody Bag", price:18, img:"images/duoning.jpg"},
+    8: {name:"Custard Leather Backpack", price:120, img:"images/Backpack.jpg"}
+};
+
+function loadCart(){
+    const cart = JSON.parse(localStorage.getItem("cart")) || {};
+    const tbody = document.getElementById("cart-body");
+    tbody.innerHTML = "";
+
+    let subtotal = 0;
+    let totalDiscount = 0;
+
+    for(let id in cart){
+        const qty = cart[id];
+        const product = products[id];
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>
+                <div class="cart-info">
+                    <img src="${product.img}" width="50">
+                    <p>${product.name}</p>
+                </div>
+            </td>
+            <td><input type="number" min="1" value="${qty}" onchange="updateQty(${id}, this.value)"></td>
+            <td>RM${product.price.toFixed(2)}</td>
+            <td><input type="number" min="0" max="100" value="0" onchange="updateCart()"></td>
+            <td class="subtotal">RM${(product.price*qty).toFixed(2)}</td>
+            <td><a href="#" onclick="removeItem(${id})">Remove</a></td>
+        `;
+        tbody.appendChild(row);
+
+        subtotal += product.price * qty;
+    }
+
+    document.getElementById("subtotal-price").innerText = "RM" + subtotal.toFixed(2);
+    document.getElementById("discount-price").innerText = "RM" + totalDiscount.toFixed(2);
+    document.getElementById("total-price").innerText = "RM" + subtotal.toFixed(2);
+}
+
+function updateQty(id, qty){
+    let cart = JSON.parse(localStorage.getItem("cart")) || {};
+    cart[id] = parseInt(qty);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart();
+}
+
+function removeItem(id){
+    let cart = JSON.parse(localStorage.getItem("cart")) || {};
+    delete cart[id];
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart();
+}
+
+function clearCart(){
+    localStorage.removeItem("cart");
+    loadCart();
+}
+
+function updateCart(){
+    const tbody = document.getElementById("cart-body");
+    let subtotal = 0;
+    let totalDiscount = 0;
+
+    for(let i=0; i<tbody.rows.length; i++){
+        const row = tbody.rows[i];
+        const price = parseFloat(row.cells[2].innerText.replace("RM",""));
+        const qty = parseInt(row.cells[1].children[0].value);
+        const discount = parseFloat(row.cells[3].children[0].value) || 0;
+        const subtotalPrice = price * qty * (1 - discount/100);
+        row.cells[4].innerText = "RM" + subtotalPrice.toFixed(2);
+        subtotal += price * qty;
+        totalDiscount += price * qty * (discount/100);
+    }
+
+    document.getElementById("subtotal-price").innerText = "RM" + subtotal.toFixed(2);
+    document.getElementById("discount-price").innerText = "RM" + totalDiscount.toFixed(2);
+    document.getElementById("total-price").innerText = "RM" + (subtotal - totalDiscount).toFixed(2);
+}
+
+loadCart();
+
+function menutoggle(){
+    var MenuItems = document.getElementById("MenuItems");
+    if(MenuItems.style.maxHeight =='200px'){
+        MenuItems.style.maxHeight ='0px';
+    } else{
+        MenuItems.style.maxHeight='200px';
+    }
+}
+</script>
+</body>
+</html>
+
+
